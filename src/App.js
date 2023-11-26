@@ -10,7 +10,7 @@ function App() {
     <Router>
     <div>
       <div id='navBar'>
-        {/* <nav>
+        <nav>
           <ul>
             <li>
               <Link to="/">Home</Link>
@@ -22,15 +22,15 @@ function App() {
               <Link to='/login'>login</Link>
             </li>
           </ul>
-        </nav> */}
+        </nav>
       </div>
       
       <img src={logo} alt="Timetrackx logo" />
     </div>
     
 <Routes>
-  <Route path='/about' element={<About />} />
-  <Route path='/login' element={<Login />} />
+  <Route path='/about' element={<About name='About page'/>} />
+  <Route path='/login' element={<Login name='Login Page' />} />
 </Routes>
     </Router>
 
