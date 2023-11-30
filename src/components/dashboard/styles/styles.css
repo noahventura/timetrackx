@@ -5,9 +5,12 @@
   
   .panels {
     display: flex;
+    flex-wrap: wrap; /* This allows the panels to wrap onto the next line */
+    gap: 10px; /* Optional: Adds space between panels */
   }
   
   .panel {
+    flex: 0 0 auto; /* This prevents the panels from shrinking smaller than their content */
     margin: 10px;
     padding: 10px;
     border: 1px solid #ccc;
