@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import About from './components/about/About' // Your page component
 import Login from './components/login/Login'; // Your page component
+import Dashboard from './components/dashboard/Dashboard';
 function App() {
   return (
     <Router>
@@ -21,6 +22,9 @@ function App() {
             <li>
               <Link to='/login'>login</Link>
             </li>
+            <li>
+              <Link to='/dashboard'>Dashboard</Link>
+            </li>
           </ul>
         </nav>
       </div>
@@ -31,6 +35,7 @@ function App() {
 <Routes>
   <Route path='/about' element={<About name='About page'/>} />
   <Route path='/login' element={<Login name='Login Page' />} />
+  <Route path='/dashboard' element={<Dashboard name='Dashboard' />} />
 </Routes>
     </Router>
 

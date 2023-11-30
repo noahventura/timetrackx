@@ -1,0 +1,16 @@
+#fullDash {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .panels {
+    display: flex;
+  }
+  
+  .panel {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    min-width: 150px;
+  }
+  
