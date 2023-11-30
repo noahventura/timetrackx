@@ -25,7 +25,7 @@ function App() {
         </nav>
       </div>
       
-      <img src={logo} alt="Timetrackx logo" />
+
     </div>
     
 <Routes>
