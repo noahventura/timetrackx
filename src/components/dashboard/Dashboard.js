@@ -1,6 +1,8 @@
 import React, {Component } from 'react';
 import  './styles/styles.css'
 
+let taskID=0;
+
 class Dashboard extends Component {
     constructor(props) {
         super(props);
@@ -16,19 +18,21 @@ class Dashboard extends Component {
     }
 
     addTask = (panelIndex, taskDescription) => {
+        const newTask = { id: taskID++, description: taskDescription };
         const newPanels = this.state.panels.map((panel, index) => {
             if (index === panelIndex) {
-                return { ...panel, tasks: [...panel.tasks, taskDescription] };
+                return { ...panel, tasks: [...panel.tasks, newTask] }; // Use newTask here
             }
             return panel;
         });
-
+    
         this.setState({ panels: newPanels });
     }
+    
 
-    onDragStart = (event, task, panelIndex) => {
-        event.dataTransfer.setData("task", task);
-        event.dataTransfer.setData("fromPanel", panelIndex);
+    onDragStart = (event, taskID, panelIndex) => {
+        event.dataTransfer.setData("taskID", taskID.toString()); // Convert ID to string
+        event.dataTransfer.setData("fromPanel", panelIndex.toString());
     }
 
     onDragOver = (event) => {
@@ -36,23 +40,28 @@ class Dashboard extends Component {
     }
 
     onDrop = (event, toPanelIndex) => {
-        const task = event.dataTransfer.getData("task");
-        const fromPanelIndex = event.dataTransfer.getData("fromPanel");
+        const taskID = parseInt(event.dataTransfer.getData("taskID"));
+        const fromPanelIndex = parseInt(event.dataTransfer.getData("fromPanel"));
 
         if (fromPanelIndex !== toPanelIndex) {
-            this.moveTask(task, fromPanelIndex, toPanelIndex);
+            this.moveTask(taskID, fromPanelIndex, toPanelIndex);
         }
     }
 
-    moveTask = (task, fromPanelIndex, toPanelIndex) => {
+    moveTask = (taskId, fromPanelIndex, toPanelIndex) => {
         this.setState(prevState => {
-            let newPanels = prevState.panels.map(panel => ({ ...panel, tasks: [...panel.tasks] }));
+            let newPanels = prevState.panels.map(panel => ({
+                ...panel,
+                tasks: panel.tasks.map(task => ({ ...task }))
+            }));
+            // Find the task object
+            const task = newPanels[fromPanelIndex].tasks.find(t => t.id === taskId);
+
+            // Remove the task from the original panel
+            newPanels[fromPanelIndex].tasks = newPanels[fromPanelIndex].tasks.filter(t => t.id !== taskId);
     
-            // Find and remove the task from the original panel
-            newPanels[fromPanelIndex].tasks = newPanels[fromPanelIndex].tasks.filter(t => t !== task);
-    
-            // Add the task to the new panel
-            newPanels[toPanelIndex].tasks.push(task);
+             // Add the task object to the new panel
+        if(task) newPanels[toPanelIndex].tasks.push(task);
     
             return { panels: newPanels };
         });
@@ -69,9 +78,9 @@ class Dashboard extends Component {
                             <button onClick={() => this.addTask(panelIndex, 'New Task')}>
                                 Add Task
                             </button>
-                            {panel.tasks.map((task, taskIndex) => (
-                                <div key={taskIndex} draggable onDragStart={(event) => this.onDragStart(event, task, panelIndex)}>
-                                    {task}
+                            {panel.tasks.map((task) => (
+                                <div key={task.id} draggable onDragStart={(event) => this.onDragStart(event, task.id, panelIndex)}>
+                                    {task.description} {/* Render the description */}
                                 </div>
                             ))}
                         </div>
