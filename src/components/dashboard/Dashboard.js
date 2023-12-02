@@ -7,9 +7,11 @@ let taskID=0;
 class Dashboard extends Component {
     constructor(props) {
         super(props);
-        // State initialization with an empty array of panels
         this.state = {
-            panels: []
+            panels: [],
+            isFormVisible: false,
+            newTaskName: '',
+            activePanelIndex: null // To track which panel the new task will be added to
         };
     }
 // Function to add a new panel to the state
@@ -18,20 +20,34 @@ class Dashboard extends Component {
             panels: [...prevState.panels, { tasks: [] }]
         }));
     }
-
+    showAddTaskForm = (panelIndex) => {
+        this.setState({ isFormVisible: true, activePanelIndex: panelIndex });
+    }
+    
+    handleTaskNameChange = (event) => {
+        this.setState({ newTaskName: event.target.value });
+    }
+    
+    submitTaskForm = () => {
+        const { activePanelIndex, newTaskName } = this.state;
+        if (newTaskName.trim()) {
+            this.addTask(activePanelIndex, newTaskName);
+            this.setState({ newTaskName: '', isFormVisible: false, activePanelIndex: null });
+        }
+    }
     // Function to add a new task to a specific panel
     addTask = (panelIndex, taskDescription) => {
         const newTask = { id: taskID++, description: taskDescription };
         const newPanels = this.state.panels.map((panel, index) => {
             if (index === panelIndex) {
-                // For the panel that matches the index, add the new task
-                return { ...panel, tasks: [...panel.tasks, newTask] }; // Use newTask here
+                return { ...panel, tasks: [...panel.tasks, newTask] };
             }
-            return panel; // For other panels, return them as they are
+            return panel;
         });
     
         this.setState({ panels: newPanels });
     }
+    
     
     // Handler for drag start event
     onDragStart = (event, taskID, panelIndex) => {
@@ -77,26 +93,33 @@ class Dashboard extends Component {
     
     // Render function to display the dashboard
     render() {
+        const { isFormVisible, newTaskName } = this.state;
+    
         return (
             <div id='fullDash'>
                 <button onClick={this.addPanel}>Add Panel</button>
                 <div className='panels'>
                     {this.state.panels.map((panel, panelIndex) => (
                         <div key={panelIndex} className="panel" onDragOver={this.onDragOver} onDrop={(event) => this.onDrop(event, panelIndex)}>
-                            <button onClick={() => this.addTask(panelIndex, 'New Task')}>
-                                Add Task
-                            </button>
+                            <button onClick={() => this.showAddTaskForm(panelIndex)}>Add Task</button>
                             {panel.tasks.map((task) => (
                                 <div key={task.id} draggable onDragStart={(event) => this.onDragStart(event, task.id, panelIndex)}>
-                                    {task.description} {/* Render the description */}
+                                    {task.description}
                                 </div>
                             ))}
                         </div>
                     ))}
                 </div>
+                {isFormVisible && (
+                    <div className="task-form">
+                        <input type="text" value={newTaskName} onChange={this.handleTaskNameChange} placeholder="Enter task name" />
+                        <button onClick={this.submitTaskForm}>Submit</button>
+                    </div>
+                )}
             </div>
         );
     }
+    
 }
 
 export default Dashboard;
