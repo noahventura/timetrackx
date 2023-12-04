@@ -21,7 +21,7 @@ class Dashboard extends Component {
         }));
     }
     showAddTaskForm = (panelIndex) => {
-        this.setState({ isFormVisible: true, activePanelIndex: panelIndex });
+        this.setState({ isFormVisible: true, activePanelIndex: panelIndex, newTaskName: '' }); // Reset newTaskName every time the form is opened
     }
     
     handleTaskNameChange = (event) => {
@@ -113,7 +113,7 @@ class Dashboard extends Component {
                 {isFormVisible && (
                     <div className="modal">
                         <div className="modal-content">
-                            <span className="close" onClick={() => this.setState({ isFormVisible: false })}>&times;</span>
+                        <span className="close" onClick={() => this.setState({ isFormVisible: false, newTaskName: '' })}>&times;</span>
                             <input type="text" value={newTaskName} onChange={this.handleTaskNameChange} placeholder="Enter task name" />
                             <button onClick={() => {
                                 this.submitTaskForm();
