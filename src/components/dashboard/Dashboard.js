@@ -93,15 +93,15 @@ class Dashboard extends Component {
     
     // Render function to display the dashboard
     render() {
-        const { isFormVisible, newTaskName } = this.state;
+        const { isFormVisible, newTaskName, activePanelIndex } = this.state;
     
         return (
             <div id='fullDash'>
-                <button onClick={this.addPanel}>Add Panel</button>
+                <button onClick={this.addPanel} disabled={isFormVisible}>Add Panel</button>
                 <div className='panels'>
                     {this.state.panels.map((panel, panelIndex) => (
                         <div key={panelIndex} className="panel" onDragOver={this.onDragOver} onDrop={(event) => this.onDrop(event, panelIndex)}>
-                            <button onClick={() => this.showAddTaskForm(panelIndex)}>Add Task</button>
+                            <button onClick={() => this.showAddTaskForm(panelIndex)} disabled={isFormVisible}>Add Task</button>
                             {panel.tasks.map((task) => (
                                 <div key={task.id} draggable onDragStart={(event) => this.onDragStart(event, task.id, panelIndex)}>
                                     {task.description}
@@ -111,14 +111,21 @@ class Dashboard extends Component {
                     ))}
                 </div>
                 {isFormVisible && (
-                    <div className="task-form">
-                        <input type="text" value={newTaskName} onChange={this.handleTaskNameChange} placeholder="Enter task name" />
-                        <button onClick={this.submitTaskForm}>Submit</button>
+                    <div className="modal">
+                        <div className="modal-content">
+                            <span className="close" onClick={() => this.setState({ isFormVisible: false })}>&times;</span>
+                            <input type="text" value={newTaskName} onChange={this.handleTaskNameChange} placeholder="Enter task name" />
+                            <button onClick={() => {
+                                this.submitTaskForm();
+                                this.setState({ isFormVisible: false });
+                            }}>Submit</button>
+                        </div>
                     </div>
                 )}
             </div>
         );
     }
+    
     
 }
 
