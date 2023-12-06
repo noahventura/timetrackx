@@ -49,8 +49,45 @@ class Dashboard extends Component {
     
         this.setState({ panels: newPanels });
     }
+    //UPDATING
+    selectTask = (task, panelIndex) => {
+        this.setState({
+            selectedTask: { ...task, panelIndex },
+            isEditTaskModalVisible: true
+        });
+    }
     
+    handleTaskUpdate = (event) => {
+        this.setState({
+            selectedTask: { ...this.state.selectedTask, [event.target.name]: event.target.value }
+        });
+    }
     
+    saveUpdatedTask = () => {
+        const { selectedTask, panels } = this.state;
+        const updatedPanels = panels.map((panel, index) => {
+            if (index === selectedTask.panelIndex) {
+                return {
+                    ...panel,
+                    tasks: panel.tasks.map(task => task.id === selectedTask.id ? selectedTask : task)
+                };
+            }
+            return panel;
+        });
+        this.setState({ panels: updatedPanels, isEditTaskModalVisible: false });
+    }
+    
+
+
+
+
+
+
+
+
+
+    
+    //DRAGGING
     // Handler for drag start event
     onDragStart = (event, taskID, panelIndex) => {
         // Store the task ID and the originating panel index in the drag event
@@ -105,9 +142,10 @@ class Dashboard extends Component {
                         <div key={panelIndex} className="panel" onDragOver={this.onDragOver} onDrop={(event) => this.onDrop(event, panelIndex)}>
                             <button onClick={() => this.showAddTaskForm(panelIndex)} disabled={isFormVisible}>Add Task</button>
                             {panel.tasks.map((task) => (
-                                <div key={task.id} draggable onDragStart={(event) => this.onDragStart(event, task.id, panelIndex)}>
-                                    {task.description}
+                                <div key={task.id} draggable onClick={() => this.selectTask(task, panelIndex)}>
+                                    {task.title}
                                 </div>
+                            
                             ))}
                         </div>
                     ))}
