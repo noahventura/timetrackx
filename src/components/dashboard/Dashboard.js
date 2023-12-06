@@ -11,7 +11,9 @@ class Dashboard extends Component {
             panels: [],
             isFormVisible: false,
             newTaskName: '',
-            activePanelIndex: null // To track which panel the new task will be added to
+            activePanelIndex: null, // To track which panel the new task will be added to
+            isEditTaskModalVisible: false,
+            selectedTask:null
         };
     }
 // Function to add a new panel to the state
