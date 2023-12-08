@@ -39,7 +39,12 @@ class Dashboard extends Component {
     }
     // Function to add a new task to a specific panel
     addTask = (panelIndex, taskDescription) => {
-        const newTask = { id: taskID++, description: taskDescription };
+        const newTask = {
+            id: taskID++,
+            title: taskDescription,  // Assuming you want to use the description as the title
+            description: '',         // Initially empty, can be edited later
+            date: ''                 // Initially empty, can be edited later
+        };
         const newPanels = this.state.panels.map((panel, index) => {
             if (index === panelIndex) {
                 return { ...panel, tasks: [...panel.tasks, newTask] };
@@ -49,6 +54,7 @@ class Dashboard extends Component {
     
         this.setState({ panels: newPanels });
     }
+    
     //UPDATING
     selectTask = (task, panelIndex) => {
         this.setState({
@@ -79,30 +85,27 @@ class Dashboard extends Component {
     
 
 
-
-
-
-
-
-
-
-    
     //DRAGGING
+
+
     // Handler for drag start event
     onDragStart = (event, taskID, panelIndex) => {
+
         // Store the task ID and the originating panel index in the drag event
-        event.dataTransfer.setData("taskID", taskID.toString()); // Convert ID to string
+        event.dataTransfer.setData("taskID", taskID.toString());
         event.dataTransfer.setData("fromPanel", panelIndex.toString());
     }
     // Handler for drag over event (required for drop to work)
     onDragOver = (event) => {
         event.preventDefault();// Prevent default to allow drop
-    }
+    } 
     // Handler for drop event
     onDrop = (event, toPanelIndex) => {
+
+
         // Retrieve the task ID and the originating panel index from the drag event
-        const taskID = parseInt(event.dataTransfer.getData("taskID"));
-        const fromPanelIndex = parseInt(event.dataTransfer.getData("fromPanel"));
+        const taskID = parseInt(event.dataTransfer.getData("taskID"), 10);
+        const fromPanelIndex = parseInt(event.dataTransfer.getData("fromPanel"), 10);
 
         // Move the task only if it's dropped in a different panel
         if (fromPanelIndex !== toPanelIndex) {
@@ -111,24 +114,39 @@ class Dashboard extends Component {
     }
     // Function to move a task from one panel to another
     moveTask = (taskId, fromPanelIndex, toPanelIndex) => {
-        this.setState(prevState => {
-            // Create a new array of panels with deep copies of their tasks
-            let newPanels = prevState.panels.map(panel => ({
-                ...panel,
-                tasks: panel.tasks.map(task => ({ ...task }))
-            }));
-            // Find the task object to be moved
-            const task = newPanels[fromPanelIndex].tasks.find(t => t.id === taskId);
+        console.log(fromPanelIndex,toPanelIndex)
+    this.setState(prevState => {
+        // Check if the fromPanelIndex and toPanelIndex are valid
+        if (fromPanelIndex < 0 || fromPanelIndex >= this.state.panels.length || 
+            toPanelIndex < 0 || toPanelIndex >= this.state.panels.length) {
+            console.error("Invalid panel index");
+            return {}; // Return the current state without changes
+        }
 
-            // Remove the task from the original panel
-            newPanels[fromPanelIndex].tasks = newPanels[fromPanelIndex].tasks.filter(t => t.id !== taskId);
+        let newPanels = prevState.panels.map(panel => ({
+            ...panel,
+            tasks: panel.tasks.map(task => ({ ...task }))
+        }));
+
+        // Find the task object to be moved
+        const task = newPanels[fromPanelIndex].tasks.find(t => t.id === taskId);
+
+        if (!task) {
+            console.error("Task not found");
+            return {}; // Return the current state without changes
+        }
+
+        // Remove the task from the original panel
+        newPanels[fromPanelIndex].tasks = newPanels[fromPanelIndex].tasks.filter(t => t.id !== taskId);
+
+        // Add the task object to the destination panel
+        newPanels[toPanelIndex].tasks.push(task);
+
+        return { panels: newPanels };
+    });
+}
+
     
-            //Add the task object to the destination panel
-        if(task) newPanels[toPanelIndex].tasks.push(task);
-    
-            return { panels: newPanels };
-        });
-    }
     
     // Render function to display the dashboard
     render() {
@@ -142,11 +160,11 @@ class Dashboard extends Component {
                         <div key={panelIndex} className="panel" onDragOver={this.onDragOver} onDrop={(event) => this.onDrop(event, panelIndex)}>
                             <button onClick={() => this.showAddTaskForm(panelIndex)} disabled={isFormVisible}>Add Task</button>
                             {panel.tasks.map((task) => (
-                                <div key={task.id} draggable onClick={() => this.selectTask(task, panelIndex)}>
+                                <div key={task.id} draggable="true" onDragStart={(event) => this.onDragStart(event, task.id, panelIndex)}>
                                     {task.title}
                                 </div>
-                            
                             ))}
+
                         </div>
                     ))}
                 </div>
