@@ -109,7 +109,6 @@ class Dashboard extends Component {
 
     // Handler for drag start event
     onDragStart = (event, taskID, panelIndex) => {
-
         // Store the task ID and the originating panel index in the drag event
         event.dataTransfer.setData("taskID", taskID.toString());
         event.dataTransfer.setData("fromPanel", panelIndex.toString());
@@ -117,7 +116,8 @@ class Dashboard extends Component {
     // Handler for drag over event (required for drop to work)
     onDragOver = (event) => {
         event.preventDefault();// Prevent default to allow drop
-    } 
+    }
+
     // Handler for drop event
     onDrop = (event, toPanelIndex) => {
 

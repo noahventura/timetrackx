@@ -19,10 +19,9 @@
   }
 
   
-  .panel div[draggable] {
-    cursor: move;
-    /* additional styles for draggable items */
-  }
+   .panel div[draggable] {
+    cursor: pointer;
+   }
   .modal {
     position: fixed;
     top: 0;
