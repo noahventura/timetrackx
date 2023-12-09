@@ -89,7 +89,20 @@ class Dashboard extends Component {
         });
     }
     
-
+    saveTaskDetails = () => {
+        const { selectedTask, panels } = this.state;
+        const updatedPanels = panels.map((panel, index) => {
+            if (index === selectedTask.panelIndex) {
+                return {
+                    ...panel,
+                    tasks: panel.tasks.map(task => task.id === selectedTask.id ? selectedTask : task)
+                };
+            }
+            return panel;
+        });
+    
+        this.setState({ panels: updatedPanels, isEditTaskModalVisible: false });
+    }
 
     //DRAGGING
 
