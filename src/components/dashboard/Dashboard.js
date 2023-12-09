@@ -179,7 +179,7 @@ class Dashboard extends Component {
                         <div key={panelIndex} className="panel" onDragOver={this.onDragOver} onDrop={(event) => this.onDrop(event, panelIndex)}>
                             <button onClick={() => this.showAddTaskForm(panelIndex)} disabled={isFormVisible}>Add Task</button>
                             {panel.tasks.map((task) => (
-                                <div key={task.id} draggable="true"  onDragStart={(event) => this.onDragStart(event, task.id, panelIndex)}>
+                                <div key={task.id} draggable="true" onClick={() => this.selectTask(task, panelIndex)} onDragStart={(event) => this.onDragStart(event, task.id, panelIndex)}>
                                     {task.title}
                                 </div>
                             ))}
