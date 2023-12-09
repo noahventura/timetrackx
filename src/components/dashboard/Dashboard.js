@@ -199,7 +199,17 @@ class Dashboard extends Component {
                         </div>
                     </div>
                 )}
-
+                {this.state.isEditTaskModalVisible && (
+                    <div className="modal">
+                        <div className="modal-content">
+                            <span className="close" onClick={() => this.setState({ isEditTaskModalVisible: false })}>&times;</span>
+                            <input type="text" name="title" value={this.state.selectedTask.title} onChange={this.handleTaskDetailChange} placeholder="Task Title" />
+                            <textarea name="description" value={this.state.selectedTask.description} onChange={this.handleTaskDetailChange} placeholder="Task Description"></textarea>
+                            <input type="date" name="date" value={this.state.selectedTask.date} onChange={this.handleTaskDetailChange} />
+                            <button onClick={this.saveTaskDetails}>Save Details</button>
+                        </div>
+                    </div>
+                )}
             </div>
         );
     }
