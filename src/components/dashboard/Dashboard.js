@@ -83,6 +83,12 @@ class Dashboard extends Component {
         this.setState({ panels: updatedPanels, isEditTaskModalVisible: false });
     }
     
+    handleTaskDetailChange = (event) => {
+        this.setState({
+            selectedTask: { ...this.state.selectedTask, [event.target.name]: event.target.value }
+        });
+    }
+    
 
 
     //DRAGGING
@@ -160,7 +166,7 @@ class Dashboard extends Component {
                         <div key={panelIndex} className="panel" onDragOver={this.onDragOver} onDrop={(event) => this.onDrop(event, panelIndex)}>
                             <button onClick={() => this.showAddTaskForm(panelIndex)} disabled={isFormVisible}>Add Task</button>
                             {panel.tasks.map((task) => (
-                                <div key={task.id} draggable="true" onDragStart={(event) => this.onDragStart(event, task.id, panelIndex)}>
+                                <div key={task.id} draggable="true"  onDragStart={(event) => this.onDragStart(event, task.id, panelIndex)}>
                                     {task.title}
                                 </div>
                             ))}
@@ -180,6 +186,7 @@ class Dashboard extends Component {
                         </div>
                     </div>
                 )}
+
             </div>
         );
     }
