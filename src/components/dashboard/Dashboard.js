@@ -1,5 +1,7 @@
 import React, {Component } from 'react';
 import { Modal, Box, Typography, TextField, Button } from '@mui/material';
+import { Paper, Grid, Card, CardContent } from '@mui/material';
+
 
 import  './styles/styles.css'
 
@@ -18,6 +20,18 @@ const modalStyle = {
     display: 'flex',
     flexDirection: 'column',
     gap: 2,
+  };
+  const panelStyle = {
+    padding: 2,
+    margin: 1,
+    minHeight: 100,
+    maxHeight: 400,
+    overflowY: 'auto'
+  };
+  
+  const taskStyle = {
+    marginBottom: 1,
+    cursor: 'pointer'
   };
   
 class Dashboard extends Component {
