@@ -240,17 +240,57 @@ class Dashboard extends Component {
                     </div>
                 )}
                 {this.state.isEditTaskModalVisible && (
-                    <div className="modal">
-                        <div className="modal-content">
-                            <span className="close" onClick={() => this.setState({ isEditTaskModalVisible: false })}>&times;</span>
-                            <input type="text" name="title" value={this.state.selectedTask.title} onChange={this.handleTaskDetailChange} placeholder="Task Title" />
-                            <textarea name="description" value={this.state.selectedTask.description} onChange={this.handleTaskDetailChange} placeholder="Task Description"></textarea>
-                            <input type="date" name="date" value={this.state.selectedTask.date} onChange={this.handleTaskDetailChange} />
-                            <button onClick={this.saveTaskDetails}>Save Details</button>
-                            <button onClick={this.deleteTask} className="delete-button">Delete Task</button>
-                        </div>
-                    </div>
-                )}
+                    <Modal
+                        open={this.state.isEditTaskModalVisible}
+                        onClose={() => this.setState({ isEditTaskModalVisible: false })}
+                        aria-labelledby="edit-task-modal-title"
+                        aria-describedby="edit-task-modal-description"
+                    >
+                        <Box sx={modalStyle}>
+                            <Typography id="edit-task-modal-title" variant="h6" component="h2">
+                            Edit Task
+                            </Typography>
+                            <TextField
+                                label="Task Title"
+                                variant="outlined"
+                                name="title"
+                                value={this.state.selectedTask.title}
+                                onChange={this.handleTaskDetailChange}
+                                fullWidth
+                            />
+                            <TextField
+                                label="Task Description"
+                                variant="outlined"
+                                name="description"
+                                multiline
+                                rows={4}
+                                value={this.state.selectedTask.description}
+                                onChange={this.handleTaskDetailChange}
+                                fullWidth
+                            />
+                            <TextField
+                                label="Due Date"
+                                type="date"
+                                name="date"
+                                value={this.state.selectedTask.date}
+                                onChange={this.handleTaskDetailChange}
+                                InputLabelProps={{
+                                shrink: true,
+                                }}
+                                fullWidth
+                            />
+                            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+                                <Button variant="contained" color="primary" onClick={this.saveTaskDetails}>
+                                    Save
+                                </Button>
+                                <Button variant="contained" color="secondary" onClick={this.deleteTask}>
+                                    Delete
+                                </Button>
+                            </div>
+                    </Box>
+                </Modal>
+)}
+
             </div>
         );
     }
