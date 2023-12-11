@@ -229,17 +229,23 @@ class Dashboard extends Component {
             <div id='fullDash'>
                 <button onClick={this.addPanel} disabled={isFormVisible}>Add Panel</button>
                 <div className='panels'>
-                    {this.state.panels.map((panel, panelIndex) => (
-                        <div key={panelIndex} className="panel" onDragOver={this.onDragOver} onDrop={(event) => this.onDrop(event, panelIndex)}>
-                            <button onClick={() => this.showAddTaskForm(panelIndex)} disabled={isFormVisible}>Add Task</button>
-                            {panel.tasks.map((task) => (
-                                <div key={task.id} draggable="true" onClick={() => this.selectTask(task, panelIndex)} onDragStart={(event) => this.onDragStart(event, task.id, panelIndex)}>
-                                    {task.title}
-                                </div>
-                            ))}
+                    <Grid container spacing={2}>
+                        {this.state.panels.map((panel, panelIndex) => (
+                            <Grid item key={panelIndex}>
+                                <Paper sx={panelStyle} onDragOver={this.onDragOver} onDrop={(event) => this.onDrop(event, panelIndex)}>
+                                 <Button variant="contained" onClick={() => this.showAddTaskForm(panelIndex)} disabled={isFormVisible}>Add Task</Button>
+                                    {panel.tasks.map((task) => (
+                                        <Card key={task.id} sx={taskStyle} draggable="true" onClick={() => this.selectTask(task, panelIndex)} onDragStart={(event) => this.onDragStart(event, task.id, panelIndex)}>
+                                            <CardContent>
+                                                <Typography variant="body2">{task.title}</Typography>
+                                            </CardContent>
+                                        </Card>
+                                ))}
+                                </Paper>
+                            </Grid>
+                        ))}
+                    </Grid>
 
-                        </div>
-                    ))}
                 </div>
                 {isFormVisible && (
                     <div className="modal">
