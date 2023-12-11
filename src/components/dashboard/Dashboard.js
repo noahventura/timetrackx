@@ -26,13 +26,24 @@ const modalStyle = {
     margin: 1,
     minHeight: 100,
     maxHeight: 400,
-    overflowY: 'auto'
+    overflowY: 'auto',
+    border: '2px solid #9e9e9e', // More prominent border
+    borderRadius: '8px', // Rounded corners
+    backgroundColor: '#f5f5f5', // Slightly off-white background
+    boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.15)', // Adding some shadow
   };
   
+  
   const taskStyle = {
-    marginBottom: 1,
-    cursor: 'pointer'
+    marginTop: 2,
+    marginBottom: 2,
+    cursor: 'pointer',
+    border: '1px solid #bdbdbd', // Adjust the color as needed
+    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)', // subtle shadow
+    borderRadius: '4px', // Rounded corners
+    backgroundColor: '#fff', // You might want to set a specific background color
   };
+  
   
 class Dashboard extends Component {
     constructor(props) {
@@ -227,13 +238,13 @@ class Dashboard extends Component {
     
         return (
             <div id='fullDash'>
-                <button onClick={this.addPanel} disabled={isFormVisible}>Add Panel</button>
+                <Button variant="contained" onClick={this.addPanel} disabled={isFormVisible} style={{ margin: '10px' }}>Add Panel</Button>
                 <div className='panels'>
                     <Grid container spacing={2}>
                         {this.state.panels.map((panel, panelIndex) => (
                             <Grid item key={panelIndex}>
                                 <Paper sx={panelStyle} onDragOver={this.onDragOver} onDrop={(event) => this.onDrop(event, panelIndex)}>
-                                 <Button variant="contained" onClick={() => this.showAddTaskForm(panelIndex)} disabled={isFormVisible}>Add Task</Button>
+                                <Button variant="contained" onClick={() => this.showAddTaskForm(panelIndex)} style={{ marginBottom: '16px' }} disabled={isFormVisible}>Add Task</Button>
                                     {panel.tasks.map((task) => (
                                         <Card key={task.id} sx={taskStyle} draggable="true" onClick={() => this.selectTask(task, panelIndex)} onDragStart={(event) => this.onDragStart(event, task.id, panelIndex)}>
                                             <CardContent>
@@ -248,17 +259,47 @@ class Dashboard extends Component {
 
                 </div>
                 {isFormVisible && (
-                    <div className="modal">
-                        <div className="modal-content">
-                        <span className="close" onClick={() => this.setState({ isFormVisible: false, newTaskName: '' })}>&times;</span>
-                            <input type="text" value={newTaskName} onChange={this.handleTaskNameChange} placeholder="Enter task name" />
-                            <button onClick={() => {
-                                this.submitTaskForm();
-                                this.setState({ isFormVisible: false });
-                            }}>Submit</button>
-                        </div>
-                    </div>
-                )}
+                    <Modal
+                        open={isFormVisible}
+                        onClose={() => this.setState({ isFormVisible: false, newTaskName: '' })}
+                        aria-labelledby="add-task-modal-title"
+                    >
+                        <Box sx={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: 400,
+                        bgcolor: 'background.paper',
+                        boxShadow: 24,
+                        p: 4,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: 2
+                        }}>
+                        <Typography id="add-task-modal-title" variant="h6" component="h2">
+                            Add New Task
+                        </Typography>
+                        <TextField 
+                            label="Task Name" 
+                            variant="outlined" 
+                            fullWidth 
+                            value={newTaskName} 
+                            onChange={this.handleTaskNameChange}
+                        />
+                        <Button 
+                            variant="contained" 
+                            color="primary" 
+                            onClick={() => {
+                            this.submitTaskForm();
+                            this.setState({ isFormVisible: false });
+                            }}
+                        >
+                            Submit
+                        </Button>
+                        </Box>
+                    </Modal>
+                    )}
                 {this.state.isEditTaskModalVisible && (
                     <Modal
                         open={this.state.isEditTaskModalVisible}
