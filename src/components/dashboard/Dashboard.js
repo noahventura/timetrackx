@@ -37,7 +37,8 @@ class Dashboard extends Component {
             this.setState({ newTaskName: '', isFormVisible: false, activePanelIndex: null });
         }
     }
-    // Function to add a new task to a specific panel
+    // ADDING TASK
+
     addTask = (panelIndex, taskDescription) => {
         const newTask = {
             id: taskID++,
@@ -54,8 +55,34 @@ class Dashboard extends Component {
     
         this.setState({ panels: newPanels });
     }
+
+
+    //DELETING TASK
+
+
+    deleteTask = () => {
+        const { selectedTask, panels } = this.state;
+        if (!selectedTask) return;
     
+        const updatedPanels = panels.map((panel, index) => {
+            if (index === selectedTask.panelIndex) {
+                return {
+                    ...panel,
+                    tasks: panel.tasks.filter(task => task.id !== selectedTask.id)
+                };
+            }
+            return panel;
+        });
+    
+        this.setState({ panels: updatedPanels, isEditTaskModalVisible: false });
+    }
+    
+
+
+
     //UPDATING
+
+
     selectTask = (task, panelIndex) => {
         this.setState({
             selectedTask: { ...task, panelIndex },
