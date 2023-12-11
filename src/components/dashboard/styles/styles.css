@@ -43,6 +43,21 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   min-width: 300px;
 }
+/*delete button in modal*/
+.delete-button {
+  background-color: #ff6347; /* Tomato color for delete button */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  margin-top: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.delete-button:hover {
+  background-color: #ff4500; /* Darker color on hover */
+}
+
 
 .close {
   float: right;
