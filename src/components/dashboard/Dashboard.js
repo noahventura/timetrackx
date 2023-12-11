@@ -1,9 +1,25 @@
 import React, {Component } from 'react';
+import { Modal, Box, Typography, TextField, Button } from '@mui/material';
+
 import  './styles/styles.css'
 
 // Global taskID counter to assign unique IDs to each task
 let taskID=0;
 
+const modalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    p: 4,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 2,
+  };
+  
 class Dashboard extends Component {
     constructor(props) {
         super(props);
