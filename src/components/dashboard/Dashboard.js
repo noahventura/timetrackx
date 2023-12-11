@@ -37,8 +37,7 @@ class Dashboard extends Component {
             this.setState({ newTaskName: '', isFormVisible: false, activePanelIndex: null });
         }
     }
-    // ADDING TASK
-
+    // Function to add a new task to a specific panel
     addTask = (panelIndex, taskDescription) => {
         const newTask = {
             id: taskID++,
@@ -55,10 +54,10 @@ class Dashboard extends Component {
     
         this.setState({ panels: newPanels });
     }
+    
 
 
-    //DELETING TASK
-
+    //DELETING
 
     deleteTask = () => {
         const { selectedTask, panels } = this.state;
@@ -76,13 +75,11 @@ class Dashboard extends Component {
     
         this.setState({ panels: updatedPanels, isEditTaskModalVisible: false });
     }
-    
+
 
 
 
     //UPDATING
-
-
     selectTask = (task, panelIndex) => {
         this.setState({
             selectedTask: { ...task, panelIndex },
@@ -230,13 +227,14 @@ class Dashboard extends Component {
                     <div className="modal">
                         <div className="modal-content">
                             <span className="close" onClick={() => this.setState({ isEditTaskModalVisible: false })}>&times;</span>
-                            {/* Existing inputs for task details */}
+                            <input type="text" name="title" value={this.state.selectedTask.title} onChange={this.handleTaskDetailChange} placeholder="Task Title" />
+                            <textarea name="description" value={this.state.selectedTask.description} onChange={this.handleTaskDetailChange} placeholder="Task Description"></textarea>
+                            <input type="date" name="date" value={this.state.selectedTask.date} onChange={this.handleTaskDetailChange} />
                             <button onClick={this.saveTaskDetails}>Save Details</button>
                             <button onClick={this.deleteTask} className="delete-button">Delete Task</button>
                         </div>
                     </div>
                 )}
-
             </div>
         );
     }
