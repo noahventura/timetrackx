@@ -26,9 +26,6 @@ const StyledButton = styled(Button)(({ theme, active }) => ({
 }));
 
 
-
-
-
 function App() {
   const location = useLocation(); // Gets the current route location
 
