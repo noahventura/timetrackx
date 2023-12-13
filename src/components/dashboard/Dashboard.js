@@ -1,6 +1,7 @@
 import React, {Component } from 'react';
 import { Modal, Box, Typography, TextField, Button } from '@mui/material';
 import { Paper, Grid, Card, CardContent } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 
 import  './styles/styles.css'
@@ -87,6 +88,18 @@ class Dashboard extends Component {
         this.setState({ isAddPanelModalVisible: false, newPanelTitle: '' });
     };
 
+
+    //DELETE PANEL
+
+    deletePanel = (panelIndex) => {
+        // Confirm before deleting
+        if (window.confirm("Are you sure you want to delete this panel?")) {
+            this.setState(prevState => ({
+                panels: prevState.panels.filter((_, index) => index !== panelIndex),
+            }));
+        }
+    };
+    
     showAddTaskForm = (panelIndex) => {
         this.setState({ isFormVisible: true, activePanelIndex: panelIndex, newTaskName: '' }); // Reset newTaskName every time the form is opened
     }
