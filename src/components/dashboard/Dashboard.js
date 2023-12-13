@@ -44,7 +44,9 @@ const modalStyle = {
     backgroundColor: '#fff', // You might want to set a specific background color
   };
   
-  
+//DASHBOARD CLASS
+
+
 class Dashboard extends Component {
     constructor(props) {
         super(props);
@@ -58,9 +60,15 @@ class Dashboard extends Component {
         };
     }
 // Function to add a new panel to the state
+    showAddPanelForm = () => {
+        const panelTitle = prompt('Enter panel title'); // Simple prompt for the title
+        if (panelTitle) {
+            this.addPanel(panelTitle);
+        }
+    }
     addPanel = () => {
         this.setState(prevState => ({
-            panels: [...prevState.panels, { tasks: [] }]
+            panels: [...prevState.panels, {title: "New Title", tasks: [] }]
         }));
     }
     showAddTaskForm = (panelIndex) => {
