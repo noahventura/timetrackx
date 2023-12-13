@@ -262,7 +262,34 @@ class Dashboard extends Component {
     
         return (
             <div id='fullDash'>
-                <Button variant="contained" onClick={this.addPanel} disabled={isFormVisible} style={{ margin: '10px' }}>Add Panel</Button>
+                <Button variant="contained" onClick={this.showAddPanelForm} disabled={isFormVisible} style={{ margin: '10px' }}>Add Panel</Button>
+                {this.state.isAddPanelModalVisible && (
+                    <Modal
+                        open={this.state.isAddPanelModalVisible}
+                        onClose={this.closeAddPanelModal}
+                        aria-labelledby="add-panel-modal-title"
+                    >
+                        <Box sx={modalStyle}>
+                            <Typography id="add-panel-modal-title" variant="h6">
+                                Add New Panel
+                            </Typography>
+                            <TextField
+                                label="Panel Title"
+                                variant="outlined"
+                                fullWidth
+                                value={this.state.newPanelTitle}
+                                onChange={this.handleAddPanelChange}
+                            />
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={this.submitAddPanelForm}
+                            >
+                                Add Panel
+                            </Button>
+                        </Box>
+                    </Modal>
+                )}
                 <div className='panels'>
                     <Grid container spacing={2}>
                         {this.state.panels.map((panel, panelIndex) => (
