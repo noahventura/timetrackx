@@ -312,7 +312,10 @@ class Dashboard extends Component {
                                     <Typography variant="h6" sx={{ textAlign: 'center', padding: 1, fontWeight: 'bold', backgroundColor: '#f5f5f5', borderRadius: '4px', margin: '8px' }}>
                                         {panel.title}
                                     </Typography>
-
+                                    <DeleteIcon 
+                                        sx={{ cursor: 'pointer' }} 
+                                        onClick={() => this.deletePanel(panelIndex)}
+                                    />
                                     {/* Add Task Button Centered */}
                                     <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '16px' }}>
                                         <Button variant="contained" onClick={() => this.showAddTaskForm(panelIndex)} disabled={isFormVisible}>Add Task</Button>
