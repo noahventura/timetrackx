@@ -341,16 +341,17 @@ class Dashboard extends Component {
                                 fullWidth
                             />
                             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+                            <Button variant="contained" color="secondary" onClick={this.deleteTask}>
+                                    Delete
+                                </Button>
                                 <Button variant="contained" color="primary" onClick={this.saveTaskDetails}>
                                     Save
                                 </Button>
-                                <Button variant="contained" color="secondary" onClick={this.deleteTask}>
-                                    Delete
-                                </Button>
+
                             </div>
                     </Box>
                 </Modal>
-)}
+                )}
 
             </div>
         );
