@@ -56,21 +56,37 @@ class Dashboard extends Component {
             newTaskName: '',
             activePanelIndex: null, // To track which panel the new task will be added to
             isEditTaskModalVisible: false,
-            selectedTask:null
+            selectedTask:null,
+            isAddPanelModalVisible: false,
+            newPanelTitle: '',
         };
     }
 // Function to add a new panel to the state
     showAddPanelForm = () => {
-        const panelTitle = prompt('Enter panel title'); // Simple prompt for the title
-        if (panelTitle) {
-            this.addPanel(panelTitle);
+        this.setState({ isAddPanelModalVisible: true });
+    };
+
+    handleAddPanelChange = (event) => {
+        this.setState({ newPanelTitle: event.target.value });
+    };
+
+    submitAddPanelForm = () => {
+        if (this.state.newPanelTitle.trim()) {
+            this.addPanel(this.state.newPanelTitle);
+            this.setState({ newPanelTitle: '', isAddPanelModalVisible: false });
         }
-    }
-    addPanel = () => {
+    };
+
+    addPanel = (title) => {
         this.setState(prevState => ({
-            panels: [...prevState.panels, {title: "New Title", tasks: [] }]
+            panels: [...prevState.panels, { title: title, tasks: [] }]
         }));
-    }
+    };
+
+    closeAddPanelModal = () => {
+        this.setState({ isAddPanelModalVisible: false, newPanelTitle: '' });
+    };
+
     showAddTaskForm = (panelIndex) => {
         this.setState({ isFormVisible: true, activePanelIndex: panelIndex, newTaskName: '' }); // Reset newTaskName every time the form is opened
     }
