@@ -295,20 +295,28 @@ class Dashboard extends Component {
                         {this.state.panels.map((panel, panelIndex) => (
                             <Grid item key={panelIndex}>
                                 <Paper sx={panelStyle} onDragOver={this.onDragOver} onDrop={(event) => this.onDrop(event, panelIndex)}>
-                                <Button variant="contained" onClick={() => this.showAddTaskForm(panelIndex)} style={{ marginBottom: '16px' }} disabled={isFormVisible}>Add Task</Button>
+                                    {/* Panel Title */}
+                                    <Typography variant="h6" sx={{ textAlign: 'center', padding: 1 }}>
+                                        {panel.title}
+                                    </Typography>
+
+                                    {/* Add Task Button */}
+                                    <Button variant="contained" onClick={() => this.showAddTaskForm(panelIndex)} style={{ marginBottom: '16px' }} disabled={isFormVisible}>Add Task</Button>
+                                    
+                                    {/* Tasks */}
                                     {panel.tasks.map((task) => (
                                         <Card key={task.id} sx={taskStyle} draggable="true" onClick={() => this.selectTask(task, panelIndex)} onDragStart={(event) => this.onDragStart(event, task.id, panelIndex)}>
                                             <CardContent>
                                                 <Typography variant="body2">{task.title}</Typography>
                                             </CardContent>
                                         </Card>
-                                ))}
+                                    ))}
                                 </Paper>
                             </Grid>
                         ))}
                     </Grid>
-
                 </div>
+
                 {isFormVisible && (
                     <Modal
                         open={isFormVisible}
