@@ -94,7 +94,7 @@ class Dashboard extends Component {
 
     //EDIT PANEL
 
-    
+
     showEditPanelForm = (panelIndex) => {
         this.setState({
             isEditPanelModalVisible: true,
@@ -342,11 +342,16 @@ class Dashboard extends Component {
                 )}
                 <div className='panels'>
                 <Grid container spacing={2}>
-        {this.state.panels.map((panel, panelIndex) => (
+                {this.state.panels.map((panel, panelIndex) => (
             <Grid item key={panelIndex} xs={12} sm={6} lg={4}>
                 <Paper sx={panelStyle} onDragOver={this.onDragOver} onDrop={(event) => this.onDrop(event, panelIndex)}>
                     {/* Panel Header */}
                     <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 1 }}>
+                        {/* Edit Icon */}
+                        <EditIcon 
+                            sx={{ cursor: 'pointer', position: 'absolute', left: 8, top: 8 }} 
+                            onClick={() => this.showEditPanelForm(panelIndex)}
+                        />
                         <Typography variant="h6">
                             {panel.title}
                         </Typography>
@@ -370,13 +375,67 @@ class Dashboard extends Component {
                         </Card>
                     ))}
                 </Paper>
-            </Grid>
-        ))}
-    </Grid>
-</div>
+                        </Grid>
+                    ))}
+                            </Grid>
+                    </div>
+                {/* Edit Panel Modal */}
+                {this.state.isEditPanelModalVisible && (
+                    <Modal
+                        open={this.state.isEditPanelModalVisible}
+                        onClose={this.closeEditPanelModal}
+                        aria-labelledby="edit-panel-modal-title"
+                    >
+                        <Box sx={modalStyle}>
+                            <Typography id="edit-panel-modal-title" variant="h6">
+                                Edit Panel Title
+                            </Typography>
+                            <TextField
+                                label="Panel Title"
+                                variant="outlined"
+                                fullWidth
+                                value={this.state.editingPanelTitle}
+                                onChange={this.handleEditPanelChange}
+                            />
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={this.submitEditPanelForm}
+                            >
+                                Save Changes
+                            </Button>
+                        </Box>
+                    </Modal>
+                )}
 
-
-
+                {/* Edit Panel Modal */}
+                {this.state.isEditPanelModalVisible && (
+                    <Modal
+                        open={this.state.isEditPanelModalVisible}
+                        onClose={this.closeEditPanelModal}
+                        aria-labelledby="edit-panel-modal-title"
+                    >
+                        <Box sx={modalStyle}>
+                            <Typography id="edit-panel-modal-title" variant="h6">
+                                Edit Panel Title
+                            </Typography>
+                            <TextField
+                                label="Panel Title"
+                                variant="outlined"
+                                fullWidth
+                                value={this.state.editingPanelTitle}
+                                onChange={this.handleEditPanelChange}
+                            />
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={this.submitEditPanelForm}
+                            >
+                                Save Changes
+                            </Button>
+                        </Box>
+                    </Modal>
+                )}
                 {isFormVisible && (
                     <Modal
                         open={isFormVisible}
