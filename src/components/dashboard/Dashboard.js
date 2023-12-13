@@ -304,37 +304,39 @@ class Dashboard extends Component {
                     </Modal>
                 )}
                 <div className='panels'>
-                    <Grid container spacing={2}>
-                        {this.state.panels.map((panel, panelIndex) => (
-                            <Grid item key={panelIndex} xs={12} sm={6} lg={4}> {/* Adjust grid sizing as needed */}
-                                <Paper sx={panelStyle} onDragOver={this.onDragOver} onDrop={(event) => this.onDrop(event, panelIndex)}>
-                                    {/* Panel Title */}
-                                    <Typography variant="h6" sx={{ textAlign: 'center', padding: 1, fontWeight: 'bold', backgroundColor: '#f5f5f5', borderRadius: '4px', margin: '8px' }}>
-                                        {panel.title}
-                                    </Typography>
-                                    <DeleteIcon 
-                                        sx={{ cursor: 'pointer' }} 
-                                        onClick={() => this.deletePanel(panelIndex)}
-                                    />
+                <Grid container spacing={2}>
+        {this.state.panels.map((panel, panelIndex) => (
+            <Grid item key={panelIndex} xs={12} sm={6} lg={4}>
+                <Paper sx={panelStyle} onDragOver={this.onDragOver} onDrop={(event) => this.onDrop(event, panelIndex)}>
+                    {/* Panel Header */}
+                    <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 1 }}>
+                        <Typography variant="h6">
+                            {panel.title}
+                        </Typography>
+                        <DeleteIcon 
+                            sx={{ cursor: 'pointer', position: 'absolute', top: 8, right: 8 }} 
+                            onClick={() => this.deletePanel(panelIndex)}
+                        />
+                    </div>
                                     {/* Add Task Button Centered */}
-                                    <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '16px' }}>
-                                        <Button variant="contained" onClick={() => this.showAddTaskForm(panelIndex)} disabled={isFormVisible}>Add Task</Button>
-                                    </div>
-                                    
-                                    {/* Tasks */}
-                                    {panel.tasks.map((task) => (
-                                        <Card key={task.id} sx={taskStyle} draggable="true" onClick={() => this.selectTask(task, panelIndex)} onDragStart={(event) => this.onDragStart(event, task.id, panelIndex)}>
-                                            <CardContent>
-                                                {/* Task Title Centered */}
-                                                <Typography variant="body2" sx={{ textAlign: 'center' }}>{task.title}</Typography>
-                                            </CardContent>
-                                        </Card>
-                                    ))}
-                                </Paper>
-                            </Grid>
-                        ))}
-                    </Grid>
-                </div>
+                    <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '16px' }}>
+                        <Button variant="contained" onClick={() => this.showAddTaskForm(panelIndex)} disabled={isFormVisible}>Add Task</Button>
+                    </div>
+                    
+                    {/* Tasks */}
+                    {panel.tasks.map((task) => (
+                        <Card key={task.id} sx={taskStyle} draggable="true" onClick={() => this.selectTask(task, panelIndex)} onDragStart={(event) => this.onDragStart(event, task.id, panelIndex)}>
+                            <CardContent>
+                                {/* Task Title Centered */}
+                                <Typography variant="body2" sx={{ textAlign: 'center' }}>{task.title}</Typography>
+                            </CardContent>
+                        </Card>
+                    ))}
+                </Paper>
+            </Grid>
+        ))}
+    </Grid>
+</div>
 
 
 
