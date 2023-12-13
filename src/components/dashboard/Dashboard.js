@@ -2,6 +2,7 @@ import React, {Component } from 'react';
 import { Modal, Box, Typography, TextField, Button } from '@mui/material';
 import { Paper, Grid, Card, CardContent } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 
 import  './styles/styles.css'
@@ -60,9 +61,12 @@ class Dashboard extends Component {
             selectedTask:null,
             isAddPanelModalVisible: false,
             newPanelTitle: '',
+            isEditPanelModalVisible: false,
+            editingPanelIndex: null,
+            editingPanelTitle: '',
         };
     }
-// Function to add a new panel to the state
+// ADD PANEL
     showAddPanelForm = () => {
         this.setState({ isAddPanelModalVisible: true });
     };
@@ -88,7 +92,40 @@ class Dashboard extends Component {
         this.setState({ isAddPanelModalVisible: false, newPanelTitle: '' });
     };
 
+    //EDIT PANEL
 
+    
+    showEditPanelForm = (panelIndex) => {
+        this.setState({
+            isEditPanelModalVisible: true,
+            editingPanelIndex: panelIndex,
+            editingPanelTitle: this.state.panels[panelIndex].title
+        });
+    };
+    
+    handleEditPanelChange = (event) => {
+        this.setState({ editingPanelTitle: event.target.value });
+    };
+    
+    submitEditPanelForm = () => {
+        if (this.state.editingPanelTitle.trim()) {
+            this.setState(prevState => {
+                const updatedPanels = [...prevState.panels];
+                updatedPanels[prevState.editingPanelIndex].title = prevState.editingPanelTitle;
+                return {
+                    panels: updatedPanels,
+                    isEditPanelModalVisible: false,
+                    editingPanelIndex: null,
+                    editingPanelTitle: ''
+                };
+            });
+        }
+    };
+    
+    closeEditPanelModal = () => {
+        this.setState({ isEditPanelModalVisible: false, editingPanelIndex: null, editingPanelTitle: '' });
+    };
+    
     //DELETE PANEL
 
     deletePanel = (panelIndex) => {
